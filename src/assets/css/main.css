@@ -158,7 +158,6 @@
 
 .search_box {
   padding: 10px;
-  width: 100%;
   display: flex;
   border: 2px solid #666;
   align-items: center;
@@ -167,12 +166,18 @@
   border-radius: 5px;
 }
 
+.search_box:hover,
+.search_input:hover,
+.search_button:hover {
+  cursor:not-allowed;
+}
+
 .search_input {
   border-radius: 5px;
   outline: none;
   border: none;
   background-color: transparent;
-  width: 100%;
+  flex: 1 1 0%;
   font-size: clamp(1rem, 5vw, 1.2rem);
 }
 
