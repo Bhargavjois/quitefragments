@@ -23,6 +23,7 @@
 
 .mt {
   margin-top: 2.5rem;
+  font-size: clamp(1rem, 5vw, 1.2rem);
 }
 
 .flex_between {
@@ -151,6 +152,35 @@
 .about_text {
   text-align: left;
   font-size: clamp(1rem, 5vw, 1.2rem);
+}
+
+.search_box {
+  padding: 10px;
+  width: 100%;
+  display: flex;
+  border: 2px solid #666;
+  align-items: center;
+  font-size: clamp(1rem, 5vw, 1.2rem);
+  background-color: var(--accent_color);
+  border-radius: 5px;
+}
+
+.search_input {
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  width: 100%;
+  font-size: clamp(1rem, 5vw, 1.2rem);
+}
+
+.search_button {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  border-left: 2px solid #666;
+  font-size: clamp(1rem, 5vw, 1.2rem);
+  padding-left: 15px;
 }
 
 /* For larger screens, like tablets or small laptops */
