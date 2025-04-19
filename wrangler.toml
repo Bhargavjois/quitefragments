@@ -4,6 +4,9 @@ compatibility_date = "2025-04-19"
 # Point to the main worker file
 main = "dist/_worker.js"
 
+# Add nodejs compatability
+compatibility_flags = ["nodejs_compat"]
+
 [build]
 command = "npm run build"
 
