@@ -4,7 +4,12 @@ import { getPosts } from '../lib/db';
 import { type PostListType } from '../types/post';
 import { convertToDateFormat } from '../lib/date';
 
-const posts = await getPosts();
+export async function getStaticProps() {
+  const posts = await getPosts();
+  return { props: { posts } };
+}
+
+const { posts } = Astro.props;
 ---
 
 <main class="main_flex_item mt">
