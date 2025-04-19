@@ -1,0 +1,15 @@
+---
+const { post } = Astro.props;
+import '../assets/css/main.css';
+import { convertToDateFormat } from '../lib/date';
+import ShareButton from './ShareButton.astro';
+---
+
+<div class="mt">
+  <p class="article_date number">{convertToDateFormat(post.created_date)}</p>
+  <p class="article_heading">{post.title}</p>
+  <div class="article_body mt">
+    {post.content}
+  </div>
+  <ShareButton post={post}>
+</div>

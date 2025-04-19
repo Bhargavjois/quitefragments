@@ -1,0 +1,30 @@
+---
+const { post } = Astro.props;
+---
+
+<div class="share_div" data-title={post.title}>
+  <p>Please support this work by sharing it</p>
+  <button class="share" id="share-button">
+    Share
+  </button>
+</div>
+<script is:inline>
+  const shareBtn = document.getElementById("share-button");
+  const postTitle = shareBtn?.dataset.title;
+
+  shareBtn?.addEventListener("click", async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: postTitle,
+          text: "This is worth reading, Check it out!",
+          url: window.location.href,
+        });
+      } catch (err) {
+        console.error("Share failed:", err);
+      }
+    } else {
+      alert("Sharing not supported on this browser.");
+    }
+  });
+</script>

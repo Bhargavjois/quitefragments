@@ -1,0 +1,24 @@
+---
+const currentPath = Astro.url.pathname;
+import '../assets/css/main.css'
+---
+
+<header>
+  <nav class="header_nav">
+    <p class="site_title"><a href="/">Quite Fragments</a></p>
+    <ul class="nav_items">
+      <li>
+        <a class={currentPath == "/" ? "active" : ""} href="/">Index</a>
+      </li>
+      <li>&#8226;</li>
+      <li>
+        <a class={currentPath == "/about" ? "active" : ""} href="/about">About</a>
+      </li>
+      <li>&#8226;</li>
+      <li>
+        <a class={currentPath == "/search" ? "active" : ""} href="/search">Search</a>
+      </li>
+    </ul>
+    </ul>
+  </nav>
+</header>

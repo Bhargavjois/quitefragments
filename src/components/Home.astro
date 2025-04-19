@@ -1,0 +1,18 @@
+---
+import '../assets/css/main.css';
+import { getPosts } from '../lib/db';
+import { type PostListType } from '../types/post';
+import { convertToDateFormat } from '../lib/date';
+
+const posts = await getPosts();
+---
+
+<main class="main_flex_item mt">
+  { posts.map((post: PostListType) => (
+    <a href={`/writing/${post.slug}`} class="flex_between writing_list">
+      <p>{post.title}</p>
+      <span class="line main_flex_item"></span>
+      <p class="number">{convertToDateFormat(post.created_date)}</p>
+    </a>
+  ))}
+</main>

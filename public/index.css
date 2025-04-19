@@ -1,0 +1,96 @@
+:root {
+  --bg_color: #000;
+  --color: #FFF;
+  --accent_color: #222;
+  --filter: invert(0);
+}
+
+[data-theme='dark'] {
+  --bg_color: #FFF;
+  --color: #000;
+  --accent_color: #EEE;
+  --filter: invert(1);
+}
+
+* {
+  font-family: 'Crimson Pro', serif;
+  color: var(--color);
+  transition: all 500ms ease-in;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg_color);
+  color: var(--color);
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+footer {
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+  padding-top: 0.5rem;
+  border-top: 2px solid var(--color);
+}
+
+.number {
+  font-size: 12px;
+  font-family: 'DM Mono', serif;
+}
+
+.app_container {
+  width: 90%;
+  height: 100%;
+  display: flex;
+  margin: 0 auto;
+  max-width: 210mm;
+  min-height: 100dvh;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.text-center {
+  text-align: center;
+}
+
+#theme-toggle {
+  right: 1rem;
+  bottom: 1rem;
+  padding: 8px;
+  border: none;
+  outline: none;
+  display: flex;
+  aspect-ratio: 1;
+  position: fixed;
+  border-radius: 100%;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color);
+}
+
+#theme-icon {
+  width: 24px;
+  aspect-ratio: 1;
+}
+
+/* For larger screens, like tablets or small laptops */
+@media screen and (min-width: 600px) {
+  footer {
+    flex-direction: row;
+  }
+}
+
+/* For desktop screens */
+@media screen and (min-width: 1024px) {
+  .app_container {
+    width: 50%;
+    max-width: 210mm;
+  }
+}

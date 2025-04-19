@@ -1,0 +1,61 @@
+---
+const { title = "Home" } = Astro.props;
+import Header from "../components/Header.astro"
+import Footer from "../components/Footer.astro"
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/png" href="/favicon.png" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Quite Fragments | {title}</title>
+		<link rel="stylesheet" href="/index.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
+		<script is:inline>
+
+      // Check localStorage or system preference on first load.
+      const stored = localStorage.getItem('theme');
+      const system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+
+			// If no theme is stored then use system theme.
+			const theme = stored || system;
+      document.documentElement.setAttribute('data-theme', theme);
+    </script>
+	</head>
+	<body>
+		<div class="app_container">
+			<Header />
+			<button id="theme-toggle">
+				<img id="theme-icon" src="/light.svg" alt="" width="24" height="24">
+			</button>
+			<script is:inline>
+				const toggle = document.getElementById('theme-toggle');
+				const icon = document.getElementById('theme-icon');
+
+				// Set the correct icon initially.
+				icon.src = theme === 'dark' ? '/dark.svg' : '/light.svg';
+				toggle?.addEventListener('click', () => {
+					const html = document.documentElement;
+
+					// Get the theme attribute, and toggle it.
+					const isDark = html.getAttribute('data-theme') === 'dark';
+					const newTheme = isDark ? 'light' : 'dark';
+					html.setAttribute('data-theme', newTheme);
+
+					// Set the new theme in local storage.
+					localStorage.setItem('theme', newTheme);
+
+					// Change the icon on the button.
+					icon.src = newTheme === 'dark' ? '/dark.svg' : '/light.svg';
+				});
+			</script>
+			<slot />
+			<Footer />
+		</div>
+	</body>
+</html>

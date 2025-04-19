@@ -1,0 +1,21 @@
+---
+import Article from "../../components/Article.astro";
+import Layout from "../../layouts/Layout.astro";
+
+import { getPostBySlug, getPosts } from '../../lib/db';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { slug: post.slug },
+  }));
+}
+
+const { slug } = Astro.props;
+const post = await getPostBySlug(slug);
+---
+
+<Layout title={"Writing"}>
+  <Article post={post} />
+</Layout>
