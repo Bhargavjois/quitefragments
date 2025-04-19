@@ -13,7 +13,7 @@ const { posts } = Astro.props;
 ---
 
 <main class="main_flex_item mt">
-  { posts.map((post: PostListType) => (
+  { posts?.map((post: PostListType) => (
     <a href={`/writing/${post.slug}`} class="flex_between writing_list">
       <p>{post.title}</p>
       <span class="line main_flex_item"></span>

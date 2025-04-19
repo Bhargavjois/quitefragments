@@ -16,14 +16,18 @@ const config = {
 
 export async function getPosts() {
   const client = new Client(config);
-  await client.connect();
-
-  const result = await client.query(
-    'SELECT title, slug, created_date FROM posts ORDER BY created_date DESC'
-  );
-
-  await client.end();
-  return result.rows;
+  try {
+    await client.connect();
+    const result = await client.query(
+      'SELECT title, slug, created_date FROM posts ORDER BY created_date DESC'
+    );
+    return result.rows;
+  } catch (err) {
+    console.error("[DB ERROR] getPosts():", err);
+    return [];
+  } finally {
+    await client.end();
+  }
 }
 
 export async function getPostBySlug(slug: string) {
