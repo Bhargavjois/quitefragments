@@ -1,10 +1,7 @@
 import { defineConfig } from 'astro/config';
-import cloudflare from '@astrojs/cloudflare';
+import vercel from '@astrojs/vercel/static';
 
 export default defineConfig({
   output: 'static',
-  adapter: cloudflare(),
-  experimental: {
-    session: true
-  }
+  adapter: vercel(),
 });

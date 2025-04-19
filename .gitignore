@@ -23,3 +23,5 @@ ca.pem
 
 # jetbrains setting folder
 .idea/
+
+.vercel
