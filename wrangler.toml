@@ -1,6 +1,9 @@
 name = "quitefragments"
 compatibility_date = "2025-04-19"
 
+# Point to the main worker file
+main = "dist/_worker.js"
+
 [build]
 command = "npm run build"
 
