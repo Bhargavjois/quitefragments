@@ -12,11 +12,21 @@ import '../assets/css/main.css'
       </li>
       <li>&#8226;</li>
       <li>
-        <a class={currentPath == "/about" ? "active" : ""} href="/about">About</a>
+        <a
+          class={["/about/", "/about", "about"].includes(currentPath) ? "active" : ""}
+          href="/about"
+        >
+          About
+        </a>
       </li>
       <li>&#8226;</li>
       <li>
-        <a class={currentPath == "/search" ? "active" : ""} href="/search">Search</a>
+        <a
+          class={["/search/", "/search", "search"].includes(currentPath) ? "active" : ""}
+          href="/search"
+        >
+          Search
+        </a>
       </li>
     </ul>
     </ul>
