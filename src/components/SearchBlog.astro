@@ -1,12 +1,119 @@
 <div class="main_flex_item mt text-center">
   <p class="article_heading">SEARCH</p>
   <div class="search_box mt">
-    <input placeholder="Working, Coming soon..." class="search_input" disabled />
-    <button class="search_button" disabled>
+    <input placeholder="Press / to start searching..." class="search_input" id="searchInput" autocomplete="off" />
+    <button class="search_button" id="searchButton">
       <svg style="pointer-events: none;" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
         <line x1="16.6569" y1="16.6569" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
       </svg>
     </button>
   </div>
+  <div id="searchResults" class="search_results mt">
+    <p id="search_place">
+      Search stories with <span style="text-decoration:underline;">Title</span> or <span style="text-decoration:underline;">Date (DD/MM/YYYY)</span>
+    </p>
+  </div>
+  <a id="post_link" href="" class="flex_between writing_list" style="display:none;">
+    <p id="post_title"></p>
+    <span class="line main_flex_item"></span>
+    <p id="post_date" class="number"></p>
+  </a>
 </div>
+
+<script is:inline>
+  let posts = [];
+
+  function convertToDateFormat(dateObj) {
+    // Extract day, month, and year from the Date object
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const year = dateObj.getFullYear();
+
+    // Return the date in dd/mm/yyyy format
+    return `${day}/${month}/${year}`;
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('searchInput');
+    const button = document.getElementById('searchButton');
+    const resultsContainer = document.getElementById('searchResults');
+    const search_place = document.getElementById('search_place');
+
+    // Fetch the posts.json when page loads
+    fetch('/posts.json')
+      .then(res => res.json())
+      .then(data => {
+        posts = data;
+      });
+
+    // Search function
+    function performSearch() {
+      const query = input.value.toLowerCase().trim();
+      if (query.length < 1) {
+        resultsContainer.innerHTML = '';
+        resultsContainer.appendChild(search_place);
+        return;
+      };
+      const filteredPosts = posts.filter(post => {
+        const titleMatch = post.title.toLowerCase().includes(query);
+
+        // Convert post.created_date to DD/MM/YYYY string
+        const dateObj = new Date(post.created_date);
+        const formattedDate = convertToDateFormat(dateObj).toLowerCase();
+
+        const dateMatch = formattedDate.includes(query);
+
+        return titleMatch || dateMatch;
+      });
+
+      renderResults(filteredPosts);
+    }
+
+    // Render results under the search box
+    function renderResults(results) {
+      resultsContainer.innerHTML = ''; // Clear previous results
+
+      // No results found.
+      if (results.length === 0) {
+        resultsContainer.innerHTML = '<p>No results found.</p>';
+        return;
+      }
+
+      // Get the existing post (link) container.
+      const postNode = document.getElementById('post_link');
+      results.forEach(post => {
+        const newPostNode = postNode.cloneNode(true);
+        const post_title = newPostNode.querySelector('#post_title');
+        const post_date = newPostNode.querySelector('#post_date');
+
+        // Remove ids to avoid multiple elements with same id.
+        newPostNode.removeAttribute('id');
+        post_title.removeAttribute('id');
+        post_date.removeAttribute('id');
+
+        // Display the node
+        newPostNode.style.display = 'flex';
+
+        // Set the values
+        newPostNode.href = `/writing/${post.slug}`;
+        post_title.innerHTML = post.title;
+        post_date.innerHTML = convertToDateFormat(new Date(post.created_date));
+
+        // Append the new post node to results container
+        resultsContainer.appendChild(newPostNode);
+      });
+    }
+
+    // On key press of '/' focus on input field.
+    document.addEventListener('keyup', (e) => {
+      input.focus();
+    });
+
+    // Trigger search on input (for live search as you type)
+    input.addEventListener('input', performSearch);
+
+    // Trigger search on button click
+    button.addEventListener('click', performSearch);
+  });
+</script>

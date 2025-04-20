@@ -38,7 +38,7 @@ import Footer from "../components/Footer.astro"
 				const icon = document.getElementById('theme-icon');
 
 				// Set the correct icon initially.
-				icon.src = theme === 'dark' ? '/dark.svg' : '/light.svg';
+				icon.src = theme === 'light' ? '/dark.svg' : '/light.svg';
 				toggle?.addEventListener('click', () => {
 					const html = document.documentElement;
 
@@ -50,8 +50,16 @@ import Footer from "../components/Footer.astro"
 					// Set the new theme in local storage.
 					localStorage.setItem('theme', newTheme);
 
+					toggle.animate([
+							{ transform: "rotateY(0deg)" },
+							{ transform: "rotateY(180deg)" },
+							{ transform: "rotateY(0deg)" },
+						], {duration: 500, fill: 'forwards'})
+
 					// Change the icon on the button.
-					icon.src = newTheme === 'dark' ? '/dark.svg' : '/light.svg';
+					setTimeout(() => {
+						icon.src = newTheme === 'light' ? '/dark.svg' : '/light.svg';
+					}, 350);
 				});
 			</script>
 			<slot />

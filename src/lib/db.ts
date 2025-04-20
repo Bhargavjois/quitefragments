@@ -1,5 +1,7 @@
 import pkg from 'pg';
 const { Client } = pkg;
+import { writeFile } from 'fs/promises';
+import path from 'path';
 import 'dotenv/config';
 
 const config = {
@@ -21,7 +23,14 @@ export async function getPosts() {
     const result = await client.query(
       'SELECT title, slug, created_date FROM posts ORDER BY created_date DESC'
     );
-    return result.rows;
+
+    const posts = result.rows;
+
+    // Write posts.json to the /public folder
+    const outputPath = path.resolve('./public/posts.json');
+    await writeFile(outputPath, JSON.stringify(posts, null, 2), 'utf8');
+
+    return posts;
   } catch (err) {
     console.error("[DB ERROR] getPosts():", err);
     return [];
@@ -32,12 +41,19 @@ export async function getPosts() {
 
 export async function getPostBySlug(slug: string) {
   const client = new Client(config);
-  await client.connect();
+  try {
+    await client.connect();
 
-  const result = await client.query(
-    'SELECT * FROM posts WHERE slug = $1 LIMIT 1', [slug]
-  );
+    const result = await client.query(
+      'SELECT * FROM posts WHERE slug = $1 LIMIT 1', [slug]
+    );
 
-  await client.end();
-  return result.rows[0];
+    await client.end();
+    return result.rows[0];
+  } catch (err) {
+    console.error("[DB ERROR] getPostBySlug():", err);
+    return null;
+  } finally {
+    await client.end();
+  }
 }

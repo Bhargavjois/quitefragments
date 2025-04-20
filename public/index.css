@@ -1,12 +1,12 @@
 :root {
   --bg_color: #000;
-  --color: #FFF;
+  --color: #CCC;
   --accent_color: #222;
   --filter: invert(0);
 }
 
-[data-theme='dark'] {
-  --bg_color: #FFF;
+[data-theme='light'] {
+  --bg_color: #FFF9F0;
   --color: #000;
   --accent_color: #EEE;
   --filter: invert(1);
