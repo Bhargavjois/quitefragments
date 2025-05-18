@@ -4,7 +4,8 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "generate:posts": "node scripts/generatePostsJson.js",
+    "build": "npm run generate:posts && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },

@@ -1,6 +1,9 @@
 import pkg from 'pg';
-const { Client } = pkg;
 import 'dotenv/config';
+import path from 'path';
+import { writeFile } from 'fs/promises';
+
+const { Client } = pkg;
 
 const config = {
   user: process.env.DB_USER,
@@ -14,7 +17,7 @@ const config = {
   },
 };
 
-export async function getPosts() {
+(async () => {
   const client = new Client(config);
   try {
     await client.connect();
@@ -23,31 +26,12 @@ export async function getPosts() {
     );
 
     const posts = result.rows;
-
-    return posts;
+    const outputPath = path.resolve('./public/posts.json');
+    await writeFile(outputPath, JSON.stringify(posts, null, 2), 'utf8');
+    console.log('posts.json generated.');
   } catch (err) {
-    console.error("[DB ERROR] getPosts():", err);
-    return [];
+    console.error("Error generating posts.json:", err);
   } finally {
     await client.end();
   }
-}
-
-export async function getPostBySlug(slug: string) {
-  const client = new Client(config);
-  try {
-    await client.connect();
-
-    const result = await client.query(
-      'SELECT * FROM posts WHERE slug = $1 LIMIT 1', [slug]
-    );
-
-    await client.end();
-    return result.rows[0];
-  } catch (err) {
-    console.error("[DB ERROR] getPostBySlug():", err);
-    return null;
-  } finally {
-    await client.end();
-  }
-}
+})();
